@@ -2,6 +2,8 @@
 #include <ESPNOW_MASTER.h>
 #include <SerialButtonSimulator.h>
 #include <Global_vars.h>
+#include <Button_funcs.h>
+
 TaskHandle_t TICK_TASK_HANDLE;
 
 void TICK_TASK(void*parameters){
@@ -21,8 +23,9 @@ void TICK_TASK(void*parameters){
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.setTimeout(25);
+  Button_init();
   espnow_master_init();
   xTaskCreate(TICK_TASK,"TICK_TASK",10000,NULL,1,&TICK_TASK_HANDLE);
   
@@ -30,5 +33,6 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  Button_read();
   SerialCommands();
 }
